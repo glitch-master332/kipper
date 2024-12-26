@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winston's Love Story</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Lobster&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Dancing Script', cursive;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #ffe6e6, #ffcccc);
+            text-align: center;
+            color: #ff3366;
+        }
+        header {
+            padding: 20px;
+            background-color: #ff3366;
+            color: white;
+        }
+        section {
+            display: none; /* Initially hidden */
+            padding: 20px;
+        }
+        .visible {
+            display: block;
+            animation: fadeIn 1.5s ease-in-out forwards;
+        }
+        .slideshow-container {
+            position: relative;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        .slides {
+            display: none;
+        }
+        img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .controls {
+            margin-top: 10px;
+        }
+        button {
+            background-color: #ff3366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            font-family: 'Lobster', cursive;
+        }
+        button:hover {
+            background-color: #ff6699;
+        }
+        input {
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+            font-size: 16px;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #ff3366;
+            color: white;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Winston’s Special Page for You 💖</h1>
+    </header>
+
+    <!-- Introduction Section -->
+    <section id="intro" class="visible">
+        <h2>Winston Wants to Share Something Special! 🌹</h2>
+        <p>You light up his world with your smile. Every moment with you feels magical, and this page is his little way of showing his love for you. 💕</p>
+        <button onclick="showSection('slideshow')">See Who His True Love Is</button>
+    </section>
+
+    <!-- Slideshow Section -->
+    <section id="slideshow">
+        <h2>You Are His True Love 💖</h2>
+        <div class="slideshow-container">
+            <div class="slides">
+                <img src="image1.jpg" alt="Her Photo 1">
+            </div>
+            <div class="slides">
+                <img src="image2.jpg" alt="Her Photo 2">
+            </div>
+            <div class="slides">
+                <img src="image3.jpg" alt="Her Photo 3">
+            </div>
+            <div class="slides">
+                <img src="image4.jpg" alt="Her Photo 4">
+            </div>
+            <div class="slides">
+                <img src="image5.jpg" alt="Her Photo 5">
+            </div>
+            <div class="slides">
+                <img src="image6.jpg" alt="Her Photo 6">
+            </div>
+            <div class="slides">
+                <img src="image7.jpg" alt="Her Photo 7">
+            </div>
+        </div>
+        <div class="controls">
+            <button onclick="changeSlide(-1)">Previous</button>
+            <button onclick="changeSlide(1)">Next</button>
+        </div>
+        <button onclick="triggerConfetti(); showSection('questions')">Answer Some Fun Questions</button>
+    </section>
+
+    <!-- Questions Section -->
+    <section id="questions">
+        <h2>Fun Questions for You 💭</h2>
+        <div>
+            <p>What’s your favorite memory of us? 🌟</p>
+            <input type="text" id="memoryInput" placeholder="Type your answer here">
+            <button onclick="sendResponse('Favorite Memory', document.getElementById('memoryInput').value)">Send Answer</button>
+        </div>
+        <div>
+            <p>If we could travel anywhere together, where would it be? 🌍</p>
+            <input type="text" id="travelInput" placeholder="Type your answer here">
+            <button onclick="sendResponse('Travel Dream', document.getElementById('travelInput').value)">Send Answer</button>
+        </div>
+        <div>
+            <p>What’s something you love the most about Winston? ❤️</p>
+            <input type="text" id="loveInput" placeholder="Type your answer here">
+            <button onclick="sendResponse('Love About Winston', document.getElementById('loveInput').value)">Send Answer</button>
+        </div>
+        <p>Thank you for being amazing. You are loved more than words can say! ❤️</p>
+    </section>
+
+    <footer>
+        <p>Made with ❤️ by Winston</p>
+    </footer>
+
+    <script>
+        // Show specific section
+        function showSection(sectionId) {
+            document.querySelectorAll('section').forEach(section => section.classList.remove('visible'));
+            document.getElementById(sectionId).classList.add('visible');
+        }
+
+        // Slideshow functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slides');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.style.display = i === index ? 'block' : 'none';
+            });
+        }
+
+        function changeSlide(direction) {
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // Initialize the slideshow
+        showSlide(currentSlide);
+
+        // Trigger confetti
+        function triggerConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        // Send response to ntfy.sh
+        function sendResponse(question, response) {
+            if (!response) {
+                alert("Please enter a response first! 😊");
+                return;
+            }
+
+            const ntfyUrl = "https://ntfy.sh/keylog"; // Your ntfy.sh topic
+
+            fetch(ntfyUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain",
+                    "Title": question,
+                },
+                body: response,
+            })
+            .then((res) => {
+                if (res.ok) {
+                    alert("Your response has been sent! Thank you! 💖");
+                } else {
+                    alert("Oops! Something went wrong. 😢");
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+                alert("Failed to send your response. Please try again later.");
+            });
+        }
+    </script>
+</body>
+</html>
+
