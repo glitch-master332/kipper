@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Injection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a2e;
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            color: #ffcc00;
+            margin-top: 20px;
+        }
+        .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-top: -50px; /* Adjust this value to reduce space */
+        }
+        .card {
+            display: none;
+            background: #283048;
+            border-radius: 10px;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-in-out;
+        }
+        .card.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .payload {
+            background: #333;
+            padding: 10px;
+            border-radius: 5px;
+            color: #ffcc00;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>SQL Injection Explained</h1>
+
+    <div class="content">
+        <div class="card visible" id="card-1">
+            <h2>1. Basic SQL Injection</h2>
+            <p>Basic SQL injection occurs when user input is directly included in a SQL query without proper sanitization. Attackers can manipulate the input to access unauthorized data.</p>
+            <p>Example: <span class="payload">admin' OR 1=1 --</span></p>
+        </div>
+
+        <div class="card" id="card-2">
+            <h2>2. Union-Based SQL Injection</h2>
+            <p>Union-based SQL injection uses the <code>UNION</code> operator to combine the results of two or more SQL queries. It can extract data from different tables in the database.</p>
+            
+        </div>
+
+        <div class="card" id="card-3">
+     
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for Tab key navigation
+        let currentCardIndex = 1;
+        const totalCards = document.querySelectorAll('.card').length;
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Tab') {
+                event.preventDefault();
+                const currentCard = document.getElementById(`card-${currentCardIndex}`);
+                const nextCard = document.getElementById(`card-${currentCardIndex + 1}`);
+
+                if (nextCard) {
+                    currentCard.classList.remove('visible');
+                    nextCard.classList.add('visible');
+                    currentCardIndex++;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
